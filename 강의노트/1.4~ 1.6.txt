@@ -1,0 +1,45 @@
+# 1.4 WebSocket Messages
+function handleConnection(socket) {
+    console.log(socket);
+}
+
+wss.on("connection", handleConnection);
+
+위 코드를 좀 더 알아 보기 쉽게 아래와 같이 변경 
+
+wss.on("connection", (socket) => {
+    console.log(socket);
+});
+
+< app.js > 
+socket.addEventListener(open, message, close 가능) 
+
+socket.addEventListener("message", (message) => {
+    console.log("Just got this: ", message, "from the Server");
+});
+** 이렇게 하면 message 이벤트의 형태를 볼 수 있음. 
+** message.data <- server가 socket에게 보낸 메시지
+
+<server.js> 
+wss.on("connection", (socket) => {
+    console.log("Connected to Browser");
+    socket.send("hello!");
+});
+
+# 1.5 Recap 
+<server.js> 
+websocket 서버 만들고 
+connection이 발생 시 -> 작성한 이벤트가 발생하도록 
+- socket에는 방금 브라우저와 연결된 socket이 들어가고 
+만약 connection된 상태에서 close 된다면 -> disconnect 되었단 로그가 뜨게 
+connection된 상태에서 message를 프론트로부터 수신한다면 -> 그 메시지를 로그로 띄움 
+- 프론트(브라우저)에 메시지도 send하자! 
+
+<app.js> 
+socket.send()로 프론트로부터 백으로 무언갈 보낼 수도 있음 (server.js에서의 그것과 형태 똑같음) 
+
+- 지금 작성된 코드는, 모두 handlefunction이 이름없는 함수로 있는 상태 
+- 함수에 이름을 붙이고 싶으면 위로 빼서 따로 function 어쩌고 로 정의해주면 됨 
+
+
+
