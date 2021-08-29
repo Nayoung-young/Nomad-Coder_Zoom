@@ -11,3 +11,9 @@ ex)
 우리는 object를 가져와서 string으로 만들어줘야 해 (app.js의 makeMessage function) 
 
 # 1.8 Nicknames part Two
+** backend로 javascript object로 보내면 좋지 않다고 함 
+** 프로그래밍 언어의 종류에 의존하지 않기 위해서 
+웹소켓이 브라우저에 있는 API이므로.. 프로그래밍 언어에 의존하지 않도록 되어있음 
+프론트와 백이 string으로만 주고 받을 수 있게 
+
+- back-end에서, 프론트로부터 받은 string을 javascript object로 바꿔야 함 
