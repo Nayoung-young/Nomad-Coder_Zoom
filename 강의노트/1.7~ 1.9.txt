@@ -17,3 +17,11 @@ ex)
 프론트와 백이 string으로만 주고 받을 수 있게 
 
 - back-end에서, 프론트로부터 받은 string을 javascript object로 바꿔야 함 
+
+# 1.9 Conclusions 
+1. 나를 제외한 다른 모든 사람들에게 메시지를 전송해주는 function을 만들려고 함 
+2. 여러 종류의 메시지를 보여줘야될 수도 있음 (backend에서도 frontend로 object를 보낼 수 있게?)
+=> 즉, front-end에서도 JSON parse를 해줘야 함 
+	- 새로운 사람이 채팅방에 들어왔을 때나 
+	- 기존 사람이 채팅방을 나갔을 때 보여줘야될 메시지가 따로 있음 
+=>=> 이런 것들을 framework로 해결을 합시다! 
