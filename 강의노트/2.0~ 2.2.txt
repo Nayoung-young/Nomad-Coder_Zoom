@@ -1,0 +1,19 @@
+# 2.0 Socket.IO 
+socket IO는 real-time, bidirectional, event-based communication을 제공하는 프레임워크 
+-socket IO uses websocket 그렇지만 websocket이 아니어도 다른 방법으로 작동 가능 
+- 실시간 기능등을 더 쉽게 만드는 코드를 제공 
+
+#2.1 
+socketIO는 웹소켓+다른 부가기능도 있음 
+- server, client 모두 설치해야 함 
+	- 브라우저가 제공하는 웹소켓은 socketIO와 호환X(소켓아이오가 기능이 더 많아서)
+
+#2.2 
+socketIO에 이미 룸 기능이 있다고 함 (wow) 
+- socket.emit으로 어떤 event이름이든 전송 가능, object도 바로 전송 가능 
+socket.emit("enter_room", { payload: input.value });
+3번째 인자로는 '서버에서 실행되는 함수'를 넣을 수 있다! (프론트엔드 코드에서 작성..) 
+socket.emit("enter_room", { payload: input.value }, ()=>{
+        console.log("server is done!");
+    });
+**즉, 서버는 back-end에서 function을 호출하지만, function은 fron-end에서 실행되게 할 수 있다 
