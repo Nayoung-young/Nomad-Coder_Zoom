@@ -9,3 +9,14 @@
 3. socket.emit의 마지막 인자로, function을 보낼 수 있음 
 - 이 function은 프론트에서 정의되고, 실행됨 
 - backend와의 작업이 모두 끝났을 때 실행됨! 
+
+# 2.4 Rooms 
+* 서로 소통을 할 수 있는 socket group이 필요하다! * 
+-> chat room
+- socket.onAny로 socket에 들어있는 event를 확인 가능 (like a middleware)  
+- socket으로.. 유저는 기본적으로 이미 room에 들어가 있음 
+	- socket.id로 확인 
+	- socket.join으로 새로운 room에 입장 가능 
+
+# 2.5 Room Messages 
+socket.to("roomName").emit("이벤트명"); 
