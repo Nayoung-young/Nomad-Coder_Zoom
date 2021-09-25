@@ -9,10 +9,20 @@ room.hidden = true;
 let roomName; 
 
 function addMessage(message){
-    const ul = chat.querySelector("ul");
+    const ul = room.querySelector("ul");
     const li = document.createElement("li");
-    li.innerText = "message";
+    li.innerText = message;
     ul.appendChild(li);
+}
+
+function hanldeMessageSubmit(event) {
+    event.preventDefault();
+    const input = room.querySelector("input");
+    const value = input.value;
+    socket.emit("new_message", input.value, roomName, () => {
+        addMessage(`You: ${value}`); 
+    });
+    input.value = "";
 }
 
 function showRoom(){
@@ -21,6 +31,9 @@ function showRoom(){
 
     const h3 = room.querySelector('h3');
     h3.innerText = `Room ${roomName}`;
+
+    const form = room.querySelector("form");
+    form.addEventListener("submit", hanldeMessageSubmit);
 }
 
 function handleRoomSubmit(event){
@@ -32,6 +45,7 @@ function handleRoomSubmit(event){
     );
     roomName = input.value;
     input.value= "";
+
 }
 
 form.addEventListener("submit", handleRoomSubmit);
@@ -39,3 +53,10 @@ form.addEventListener("submit", handleRoomSubmit);
 socket.on("welcome", () => {
     addMessage("someone joined!");
 });
+
+socket.on("bye", () => {
+    addMessage("someone left");
+})
+
+socket.on("new_message", addMessage); // 메시지를 받아서 보여줌 
+// socket.on("new_message", (msg) => {addMessage(msg)});
