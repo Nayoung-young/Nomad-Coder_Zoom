@@ -1,0 +1,11 @@
+# 2.6 
+이제 우리가 떠났다는 것을 알리자 
+- disconnecting이란 이벤트 사용 
+	- disconnect: 방을 완전히 나간 것 
+	- disconnecting: 접속을 중단한 상태지만 아직 나가지는 않은 것 
+		- 방을 나가기 전 마지막 메시지로 'bye' 전송 
+
+message 전송 
+
+# 2.7 Nicknames 
+- 각 유저에게 닉네임 부여 
