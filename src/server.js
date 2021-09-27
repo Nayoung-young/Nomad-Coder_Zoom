@@ -8,7 +8,7 @@ const app = express();
 app.set('view engine', "pug");
 app.set('views', __dirname + "/views");
 app.use("/public", express.static(__dirname + "/public"));
-app.get("/", (req, res)=> res.render("home")); 
+app.get("/", (req, res) => res.render("home"));
 app.get("/*", (req, res) => res.redirect("/"));
 
 const handleListen = () => console.log(`Wow! Listening on http://localhost:3000`);
@@ -16,20 +16,42 @@ const handleListen = () => console.log(`Wow! Listening on http://localhost:3000`
 const httpServer = http.createServer(app);
 const wsServer = SocketIO(httpServer);
 
-wsServer.on("connection", (socket)=>{
+function publicRooms() {
+    const {
+        sockets: {
+          adapter: { sids, rooms },
+        },
+      } = wsServer;
+    const publicRooms = [];
+    rooms.forEach((_, key) => {
+        if (sids.get(key) === undefined) {
+            publicRooms.push(key);
+        }
+    });
+    return publicRooms;
+}
+
+wsServer.on("connection", (socket) => {
     socket["nickname"] = "Anon";
 
-    socket.onAny((event)=> { // socket에 있는 event 확인 
+    socket.onAny((event) => { // socket에 있는 event 확인 
+        console.log(wsServer.sockets.adapter);
         console.log(`socket event: ${event}`);
     })
     socket.on("enter_room", (roomName, done) => {
         socket.join(roomName);
         done();
         socket.to(roomName).emit("welcome", socket.nickname);
+        wsServer.sockets.emit("room_change", publicRooms()); // send a msg to all sockets
     });
     socket.on("disconnecting", () => {
+        // happen shortly before the socket leaves the room 
         socket.rooms.forEach(room => socket.to(room).emit("bye", socket.nickname));
+        //wsServer.sockets.emit("room_change", publicRooms()); // send a msg to all sockets
     })
+    socket.on("disconnect", () => {
+        wsServer.sockets.emit("room_change", publicRooms()); // send a msg to all sockets
+    });
     socket.on("new_message", (msg, room, done) => {
         socket.to(room).emit("new_message", `${socket.nickname} : ${msg}`);
         done();
